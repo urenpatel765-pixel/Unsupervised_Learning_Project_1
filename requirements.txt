@@ -1,0 +1,1408 @@
+======================================================================
+        MALL CUSTOMER SEGMENTATION PROJECT
+        UNSUPERVISED LEARNING - PR 1
+        LIBRARIES AND IMPORTS EXPLANATION
+======================================================================
+
+Student Project Documentation
+
+Project:
+Mall Customer Segmentation using Unsupervised Learning
+
+Main Algorithms:
+1. K-Means Clustering
+2. Agglomerative Hierarchical Clustering
+3. DBSCAN Clustering
+
+Main Evaluation Metrics:
+1. Silhouette Score
+2. Davies-Bouldin Index
+3. Calinski-Harabasz Index
+
+Dataset:
+Mall Customers Dataset
+Source:
+Kaggle - Customer Segmentation Tutorial in Python
+
+======================================================================
+1. PURPOSE OF THIS DOCUMENT
+======================================================================
+
+This document explains all major Python libraries, modules, classes,
+functions, and imports used in the Mall Customer Segmentation
+Unsupervised Learning project.
+
+The purpose is to provide a clear understanding of:
+
+• Which libraries are used
+• Why each library is required
+• Which specific components are imported
+• Where the imports are used in the project
+• How each library contributes to the analysis
+• Why these libraries are appropriate for customer segmentation
+
+The project follows an unsupervised learning workflow involving:
+
+Data Loading
+      ↓
+Data Inspection
+      ↓
+Exploratory Data Analysis
+      ↓
+Feature Selection
+      ↓
+Feature Scaling
+      ↓
+K-Means Clustering
+      ↓
+Hierarchical Clustering
+      ↓
+DBSCAN
+      ↓
+Cluster Evaluation
+      ↓
+Customer Profiling
+      ↓
+Business Interpretation
+
+
+======================================================================
+2. COMPLETE IMPORT STRUCTURE
+======================================================================
+
+The project uses the following main imports:
+
+import os
+import warnings
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import kagglehub
+
+from sklearn.preprocessing import StandardScaler, LabelEncoder
+
+from sklearn.cluster import (
+    KMeans,
+    AgglomerativeClustering,
+    DBSCAN
+)
+
+from sklearn.metrics import (
+    silhouette_score,
+    davies_bouldin_score,
+    calinski_harabasz_score
+)
+
+from sklearn.neighbors import NearestNeighbors
+
+from scipy.cluster.hierarchy import (
+    dendrogram,
+    linkage
+)
+
+
+======================================================================
+3. PYTHON STANDARD LIBRARY MODULES
+======================================================================
+
+The following modules are part of Python's standard library.
+
+They do not need to be installed separately using pip.
+
+----------------------------------------------------------------------
+3.1 os
+----------------------------------------------------------------------
+
+IMPORT:
+
+import os
+
+PURPOSE:
+
+The 'os' module provides operating-system-related functionality.
+
+It can be used for:
+
+• Working with file paths
+• Checking files and directories
+• Managing environment-related operations
+• Interacting with the operating system
+
+PROJECT ROLE:
+
+The module supports general file and project environment handling.
+
+IMPORTANT:
+
+'os' should NOT be added to requirements.txt because it is included
+with Python itself.
+
+----------------------------------------------------------------------
+3.2 warnings
+----------------------------------------------------------------------
+
+IMPORT:
+
+import warnings
+
+PURPOSE:
+
+The warnings module allows Python warnings to be controlled.
+
+It is useful when:
+
+• A library generates non-critical warnings
+• Output needs to remain clean
+• Warnings need to be filtered during analysis
+
+PROJECT ROLE:
+
+It helps maintain a clean and professional notebook output.
+
+IMPORTANT:
+
+'warnings' is part of Python's standard library.
+
+It should NOT be added to requirements.txt.
+
+----------------------------------------------------------------------
+3.3 pathlib
+----------------------------------------------------------------------
+
+IMPORT:
+
+from pathlib import Path
+
+PURPOSE:
+
+Path provides an object-oriented way of working with file and
+directory paths.
+
+Advantages:
+
+• Cleaner path handling
+• Better cross-platform compatibility
+• Easier file management
+• More readable code
+
+PROJECT ROLE:
+
+Path can be used for dataset and project file path management.
+
+IMPORTANT:
+
+pathlib is included with Python.
+
+Therefore, it should NOT be added to requirements.txt.
+
+
+======================================================================
+4. NUMPY
+======================================================================
+
+PACKAGE:
+
+numpy
+
+IMPORT:
+
+import numpy as np
+
+FULL NAME:
+
+Numerical Python
+
+PURPOSE:
+
+NumPy is a fundamental Python library for numerical computing.
+
+It provides:
+
+• Arrays
+• Numerical operations
+• Mathematical functions
+• Statistical calculations
+• Efficient numerical processing
+
+PROJECT ROLE:
+
+NumPy supports numerical operations throughout the project.
+
+Examples include:
+
+• Handling numerical arrays
+• Working with clustering labels
+• Checking numerical values
+• Working with NaN values
+• Parameter ranges
+• Numerical calculations
+
+Example:
+
+np.nan
+
+is used to represent a missing numerical result when a clustering
+metric cannot be calculated.
+
+Another example:
+
+np.unique()
+
+can be used to identify unique cluster labels.
+
+WHY NUMPY IS IMPORTANT:
+
+Machine learning libraries operate heavily on numerical arrays.
+NumPy provides the numerical foundation required for many
+data-science and machine-learning operations.
+
+requirements.txt:
+
+numpy
+
+
+======================================================================
+5. PANDAS
+======================================================================
+
+PACKAGE:
+
+pandas
+
+IMPORT:
+
+import pandas as pd
+
+FULL NAME:
+
+Python Data Analysis Library
+
+PURPOSE:
+
+Pandas is used for data manipulation, analysis, cleaning, and
+tabular data processing.
+
+Pandas provides two major structures:
+
+1. Series
+2. DataFrame
+
+PROJECT ROLE:
+
+Pandas is one of the most important libraries in this project.
+
+It is used for:
+
+• Loading tabular data
+• Creating DataFrames
+• Inspecting the dataset
+• Selecting columns
+• Filtering observations
+• Calculating descriptive statistics
+• Grouping customers by clusters
+• Creating cluster profiles
+• Creating evaluation tables
+
+The Mall Customers dataset contains:
+
+• CustomerID
+• Gender
+• Age
+• Annual Income
+• Spending Score
+
+Pandas allows these variables to be analyzed efficiently.
+
+Examples:
+
+df.head()
+
+Displays the first rows of the dataset.
+
+df.info()
+
+Provides information about columns and data types.
+
+df.describe()
+
+Provides descriptive statistics.
+
+df.isnull().sum()
+
+Checks for missing values.
+
+df.groupby()
+
+Allows customer characteristics to be summarized by cluster.
+
+PROJECT IMPORTANCE:
+
+Pandas is responsible for most of the dataset preparation and
+customer-profile analysis.
+
+requirements.txt:
+
+pandas
+
+
+======================================================================
+6. MATPLOTLIB
+======================================================================
+
+PACKAGE:
+
+matplotlib
+
+IMPORT:
+
+import matplotlib.pyplot as plt
+
+PURPOSE:
+
+Matplotlib is a Python visualization library used to create graphs,
+charts, and plots.
+
+PROJECT ROLE:
+
+Matplotlib is used for several important visualizations.
+
+Examples include:
+
+• Distribution plots
+• Elbow plots
+• Cluster visualizations
+• Dendrogram-related plotting
+• DBSCAN distance plots
+• Algorithm comparison charts
+• Figure formatting
+
+Important functions include:
+
+plt.figure()
+
+Creates a new figure.
+
+plt.plot()
+
+Creates line plots.
+
+plt.scatter()
+
+Creates scatter plots.
+
+plt.xlabel()
+
+Adds an x-axis label.
+
+plt.ylabel()
+
+Adds a y-axis label.
+
+plt.title()
+
+Adds a descriptive title.
+
+plt.legend()
+
+Displays the legend.
+
+plt.grid()
+
+Adds grid lines.
+
+plt.tight_layout()
+
+Improves spacing around the visualization.
+
+plt.show()
+
+Displays the visualization.
+
+PROJECT IMPORTANCE:
+
+Visualization is essential because clustering is an exploratory
+unsupervised-learning technique.
+
+Plots help identify:
+
+• Customer distributions
+• Potential patterns
+• Cluster separation
+• Density structure
+• Parameter behaviour
+• Algorithm differences
+
+requirements.txt:
+
+matplotlib
+
+
+======================================================================
+7. SEABORN
+======================================================================
+
+PACKAGE:
+
+seaborn
+
+IMPORT:
+
+import seaborn as sns
+
+PURPOSE:
+
+Seaborn is a statistical data visualization library built on top
+of Matplotlib.
+
+It provides high-level visualization functions and attractive
+statistical plots.
+
+PROJECT ROLE:
+
+Seaborn is used for:
+
+• Distribution plots
+• KDE plots
+• Pairplots
+• Correlation heatmaps
+• Scatter plots
+• Cluster visualizations
+• Bar plots
+• Consistent visualization styling
+
+Examples include:
+
+sns.set_style("whitegrid")
+
+Used to apply a consistent visualization style.
+
+sns.pairplot()
+
+Used to visualize relationships between multiple numerical
+variables.
+
+sns.heatmap()
+
+Used to display correlation relationships.
+
+sns.scatterplot()
+
+Used to visualize customer clusters.
+
+sns.barplot()
+
+Used for algorithm metric comparisons.
+
+PROJECT IMPORTANCE:
+
+Seaborn makes exploratory data analysis easier to interpret and
+provides professional statistical visualizations.
+
+requirements.txt:
+
+seaborn
+
+
+======================================================================
+8. KAGGLEHUB
+======================================================================
+
+PACKAGE:
+
+kagglehub
+
+IMPORT:
+
+import kagglehub
+
+PURPOSE:
+
+KaggleHub provides programmatic access to Kaggle datasets.
+
+PROJECT ROLE:
+
+The project uses KaggleHub to download the official Mall Customers
+dataset.
+
+Dataset:
+
+vjchoudhary7/customer-segmentation-tutorial-in-python
+
+Example:
+
+path = kagglehub.dataset_download(
+    "vjchoudhary7/customer-segmentation-tutorial-in-python"
+)
+
+This allows the notebook to retrieve the dataset programmatically.
+
+ADVANTAGES:
+
+• Reproducible dataset loading
+• Avoids manually hardcoding a local dataset path
+• Uses the specified Kaggle dataset
+• Makes the notebook easier to reproduce
+
+PROJECT IMPORTANCE:
+
+KaggleHub provides a reproducible way to access the dataset used
+for the analysis.
+
+requirements.txt:
+
+kagglehub
+
+
+======================================================================
+9. SCIKIT-LEARN
+======================================================================
+
+PACKAGE:
+
+scikit-learn
+
+PURPOSE:
+
+Scikit-learn is the main machine-learning library used in this
+project.
+
+It provides implementations for:
+
+• Data preprocessing
+• Clustering algorithms
+• Evaluation metrics
+• Nearest-neighbour analysis
+
+The project uses several components from scikit-learn.
+
+
+======================================================================
+10. STANDARD SCALER
+======================================================================
+
+IMPORT:
+
+from sklearn.preprocessing import StandardScaler
+
+PURPOSE:
+
+StandardScaler standardizes numerical features.
+
+Standardization transforms a variable approximately according to:
+
+z = (x - mean) / standard deviation
+
+After standardization:
+
+• Mean is approximately 0
+• Standard deviation is approximately 1
+
+PROJECT ROLE:
+
+The clustering variables are:
+
+• Age
+• Annual Income
+• Spending Score
+
+These variables have different numerical ranges.
+
+For example:
+
+Age is approximately between 18 and 70.
+
+Annual Income is approximately between 15 and 137.
+
+Spending Score is approximately between 1 and 99.
+
+Without scaling, variables with larger numerical ranges could have
+greater influence on distance-based clustering.
+
+The project therefore creates:
+
+X_scaled
+
+from:
+
+X
+
+using StandardScaler.
+
+PROJECT IMPORTANCE:
+
+Standardization ensures that the three clustering variables are
+placed on a comparable scale before distance-based clustering.
+
+Used by:
+
+• K-Means
+• Agglomerative Hierarchical Clustering
+• DBSCAN
+
+
+======================================================================
+11. LABEL ENCODER
+======================================================================
+
+IMPORT:
+
+from sklearn.preprocessing import LabelEncoder
+
+PURPOSE:
+
+LabelEncoder converts categorical labels into numerical labels.
+
+For example:
+
+Female → 0
+Male   → 1
+
+PROJECT ROLE:
+
+Gender is retained for descriptive profiling and analysis.
+
+However, Gender is not part of the primary three-feature clustering
+matrix.
+
+The main clustering features are:
+
+• Age
+• Annual Income
+• Spending Score
+
+IMPORTANT:
+
+The project does not use Gender as one of the primary clustering
+features.
+
+This keeps the main segmentation focused on the numerical
+customer characteristics specified for the analysis.
+
+requirements.txt:
+
+scikit-learn
+
+There is no separate package called "LabelEncoder" to install.
+
+
+======================================================================
+12. K-MEANS CLUSTERING
+======================================================================
+
+IMPORT:
+
+from sklearn.cluster import KMeans
+
+PURPOSE:
+
+K-Means is a centroid-based unsupervised clustering algorithm.
+
+It divides observations into K clusters.
+
+The algorithm works by:
+
+1. Selecting cluster centroids
+2. Assigning observations to the nearest centroid
+3. Updating centroid positions
+4. Repeating the process until convergence
+
+PROJECT ROLE:
+
+K-Means is the primary clustering algorithm in the project.
+
+Candidate values of K are evaluated.
+
+The project investigates K values from 2 to 10.
+
+The analysis considers:
+
+• Elbow method
+• Silhouette Score
+• Cluster structure
+
+The final reference solution uses:
+
+K = 6
+
+The selected K-Means model is then used to create customer
+segments.
+
+PROJECT IMPORTANCE:
+
+K-Means provides an interpretable segmentation of customers based
+on:
+
+• Age
+• Annual Income
+• Spending Score
+
+requirements.txt:
+
+scikit-learn
+
+
+======================================================================
+13. AGGLOMERATIVE CLUSTERING
+======================================================================
+
+IMPORT:
+
+from sklearn.cluster import AgglomerativeClustering
+
+PURPOSE:
+
+Agglomerative Clustering is a hierarchical clustering algorithm.
+
+It starts with individual observations and progressively merges
+similar groups.
+
+PROJECT CONFIGURATION:
+
+Linkage:
+
+Ward
+
+Distance:
+
+Euclidean
+
+Number of clusters:
+
+6
+
+PROJECT ROLE:
+
+It provides an alternative segmentation to K-Means.
+
+The same standardized feature matrix:
+
+X_scaled
+
+is used.
+
+The resulting customer segments are evaluated using the same
+clustering-quality metrics.
+
+PROJECT IMPORTANCE:
+
+Using a second clustering algorithm helps determine whether the
+customer structure observed with K-Means is also visible through
+a hierarchical approach.
+
+requirements.txt:
+
+scikit-learn
+
+
+======================================================================
+14. DBSCAN
+======================================================================
+
+IMPORT:
+
+from sklearn.cluster import DBSCAN
+
+FULL NAME:
+
+Density-Based Spatial Clustering of Applications with Noise
+
+PURPOSE:
+
+DBSCAN is a density-based clustering algorithm.
+
+Unlike K-Means:
+
+• It does not require a predefined number of clusters.
+• It can identify dense regions.
+• It can classify observations as noise.
+• It can identify non-centroid-based structures.
+
+PROJECT ROLE:
+
+DBSCAN provides a complementary view of the customer dataset.
+
+The project investigates:
+
+• eps
+• min_samples
+• Number of clusters
+• Noise observations
+• Coverage
+• Silhouette Score
+• Davies-Bouldin Index
+• Calinski-Harabasz Index
+
+A 4-nearest-neighbour distance analysis is also used to provide
+evidence for candidate eps values.
+
+PROJECT IMPORTANCE:
+
+DBSCAN is particularly useful for investigating whether some
+customers behave differently from dense customer groups.
+
+These observations may be identified as DBSCAN noise.
+
+requirements.txt:
+
+scikit-learn
+
+
+======================================================================
+15. CLUSTERING EVALUATION METRICS
+======================================================================
+
+The project uses three internal clustering evaluation metrics.
+
+They are imported from:
+
+sklearn.metrics
+
+
+======================================================================
+16. SILHOUETTE SCORE
+======================================================================
+
+IMPORT:
+
+from sklearn.metrics import silhouette_score
+
+PURPOSE:
+
+The Silhouette Score evaluates how well observations fit within
+their assigned clusters compared with other clusters.
+
+General interpretation:
+
+Higher values generally indicate stronger cluster cohesion and
+separation.
+
+Values near zero indicate overlapping cluster boundaries.
+
+Negative values can indicate potentially poor assignments.
+
+PROJECT ROLE:
+
+Silhouette Score is used for:
+
+• K-Means model selection
+• Hierarchical clustering evaluation
+• DBSCAN evaluation
+• Algorithm comparison
+
+Known project results:
+
+K-Means:
+
+0.4284
+
+Agglomerative:
+
+0.4201
+
+DBSCAN:
+
+0.5454
+
+IMPORTANT DBSCAN NOTE:
+
+For DBSCAN, the metric is calculated using non-noise observations.
+
+
+======================================================================
+17. DAVIES-BOULDIN INDEX
+======================================================================
+
+IMPORT:
+
+from sklearn.metrics import davies_bouldin_score
+
+PURPOSE:
+
+The Davies-Bouldin Index measures the similarity between clusters
+based on their internal spread and separation.
+
+General interpretation:
+
+Lower values are generally better.
+
+PROJECT ROLE:
+
+It is used to complement Silhouette Score during clustering
+evaluation.
+
+Known results include:
+
+K-Means:
+Calculated as part of final model evaluation.
+
+Agglomerative:
+0.8521
+
+DBSCAN:
+0.6222
+
+The metric helps provide another perspective on cluster quality.
+
+
+======================================================================
+18. CALINSKI-HARABASZ INDEX
+======================================================================
+
+IMPORT:
+
+from sklearn.metrics import calinski_harabasz_score
+
+PURPOSE:
+
+The Calinski-Harabasz Index evaluates the ratio between
+between-cluster dispersion and within-cluster dispersion.
+
+General interpretation:
+
+Higher values generally indicate better-defined clustering
+structure.
+
+PROJECT ROLE:
+
+It is used alongside:
+
+• Silhouette Score
+• Davies-Bouldin Index
+
+for a more comprehensive evaluation.
+
+Known results:
+
+Agglomerative:
+
+127.99
+
+DBSCAN:
+
+176.91
+
+The metric contributes additional quantitative evidence when
+comparing clustering solutions.
+
+
+======================================================================
+19. NEAREST NEIGHBOURS
+======================================================================
+
+IMPORT:
+
+from sklearn.neighbors import NearestNeighbors
+
+PURPOSE:
+
+NearestNeighbors is used to identify distances between observations
+and their nearest neighbours.
+
+PROJECT ROLE:
+
+It is mainly used in the DBSCAN parameter analysis.
+
+The project creates a 4-nearest-neighbour distance analysis.
+
+Purpose:
+
+• Estimate neighbourhood density
+• Examine sorted neighbour distances
+• Identify a possible region for DBSCAN eps values
+• Support evidence-based parameter exploration
+
+The 4-NN distance plot is not used as the only decision rule.
+
+Multiple DBSCAN parameter combinations are evaluated afterwards.
+
+This makes parameter selection more systematic.
+
+requirements.txt:
+
+scikit-learn
+
+
+======================================================================
+20. SCIPY
+======================================================================
+
+PACKAGE:
+
+scipy
+
+PURPOSE:
+
+SciPy is a scientific-computing library used for advanced
+mathematical and statistical operations.
+
+PROJECT ROLE:
+
+The project uses SciPy's hierarchical clustering functionality.
+
+
+======================================================================
+21. LINKAGE
+======================================================================
+
+IMPORT:
+
+from scipy.cluster.hierarchy import linkage
+
+PURPOSE:
+
+linkage() creates the hierarchical clustering linkage matrix.
+
+The linkage matrix records how observations or clusters are
+progressively merged.
+
+PROJECT CONFIGURATION:
+
+Method:
+
+Ward
+
+Distance:
+
+Euclidean
+
+PROJECT ROLE:
+
+The linkage matrix is used to create the hierarchical structure
+visualized through a dendrogram.
+
+Example:
+
+hierarchical_linkage = linkage(
+    X_scaled,
+    method="ward",
+    metric="euclidean"
+)
+
+The resulting structure contains information about the sequence
+and distance of hierarchical merges.
+
+
+======================================================================
+22. DENDROGRAM
+======================================================================
+
+IMPORT:
+
+from scipy.cluster.hierarchy import dendrogram
+
+PURPOSE:
+
+A dendrogram is a tree-like visualization of hierarchical
+clustering.
+
+It shows:
+
+• How observations/groups are merged
+• The sequence of merging
+• Linkage distances
+• Hierarchical structure
+
+PROJECT ROLE:
+
+The dendrogram is used in the hierarchical clustering section.
+
+It helps visually investigate how customer observations form
+progressively larger groups.
+
+The project also uses a reference cut corresponding approximately
+to the K-Means reference cluster count.
+
+IMPORTANT:
+
+The dendrogram provides structural evidence.
+
+Final model quality is evaluated using quantitative metrics rather
+than relying only on visual interpretation.
+
+
+======================================================================
+23. COMPLETE LIBRARY SUMMARY
+======================================================================
+
+Library / Module        Main Purpose
+----------------------------------------------------------------------
+os                      Operating-system and file handling
+warnings                Warning management
+pathlib                 Cross-platform path management
+numpy                   Numerical computing
+pandas                  Data manipulation and analysis
+matplotlib               General-purpose visualization
+seaborn                 Statistical visualization
+kagglehub                Kaggle dataset access
+scikit-learn             Machine learning and clustering
+scipy                    Scientific computing and hierarchy
+----------------------------------------------------------------------
+
+
+======================================================================
+24. MACHINE LEARNING COMPONENT SUMMARY
+======================================================================
+
+Component                         Library
+----------------------------------------------------------------------
+StandardScaler                   scikit-learn
+LabelEncoder                     scikit-learn
+K-Means                          scikit-learn
+Agglomerative Clustering         scikit-learn
+DBSCAN                           scikit-learn
+Silhouette Score                 scikit-learn
+Davies-Bouldin Index             scikit-learn
+Calinski-Harabasz Index          scikit-learn
+Nearest Neighbours               scikit-learn
+Linkage                          SciPy
+Dendrogram                       SciPy
+----------------------------------------------------------------------
+
+
+======================================================================
+25. WHY THESE LIBRARIES ARE SUITABLE
+======================================================================
+
+The selected libraries form a complete data-science and
+unsupervised-learning workflow.
+
+NumPy
+-----
+Provides numerical operations required for data science and
+machine-learning processing.
+
+Pandas
+------
+Provides efficient manipulation and analysis of the customer
+dataset.
+
+Matplotlib
+----------
+Provides flexible plotting and visualization capabilities.
+
+Seaborn
+-------
+Provides statistical and business-oriented visualizations.
+
+KaggleHub
+---------
+Provides reproducible access to the specified Kaggle dataset.
+
+Scikit-learn
+------------
+Provides preprocessing, clustering algorithms, nearest-neighbour
+analysis, and clustering evaluation metrics.
+
+SciPy
+-----
+Provides hierarchical clustering and dendrogram functionality.
+
+Together, these libraries cover the complete analytical workflow
+without requiring unnecessary machine-learning frameworks.
+
+
+======================================================================
+26. REQUIREMENTS.TXT DEPENDENCIES
+======================================================================
+
+Only third-party packages that need to be installed should appear
+in requirements.txt.
+
+The final dependency list is:
+
+numpy
+pandas
+matplotlib
+seaborn
+scikit-learn
+scipy
+kagglehub
+
+Installation command:
+
+pip install -r requirements.txt
+
+
+======================================================================
+27. WHY STANDARD LIBRARY MODULES ARE NOT IN REQUIREMENTS.TXT
+======================================================================
+
+The following imports are built into Python:
+
+os
+warnings
+pathlib
+
+They are therefore not external packages.
+
+They do not need to be installed using pip.
+
+For this reason, they should not be added to requirements.txt.
+
+This keeps the dependency file technically correct and avoids
+listing packages that are already included with Python.
+
+
+======================================================================
+28. WHY INDIVIDUAL FUNCTIONS ARE NOT LISTED
+======================================================================
+
+The following are NOT separate packages:
+
+KMeans
+DBSCAN
+AgglomerativeClustering
+StandardScaler
+LabelEncoder
+silhouette_score
+davies_bouldin_score
+calinski_harabasz_score
+NearestNeighbors
+dendrogram
+linkage
+
+They are components provided by larger packages.
+
+For example:
+
+KMeans
+DBSCAN
+StandardScaler
+NearestNeighbors
+
+are provided through:
+
+scikit-learn
+
+Similarly:
+
+dendrogram
+linkage
+
+are provided through:
+
+scipy
+
+Therefore, requirements.txt should contain the package name rather
+than each individual class or function.
+
+
+======================================================================
+29. REPRODUCIBILITY
+======================================================================
+
+The dependency structure supports reproducibility by clearly
+identifying the external Python packages required to execute the
+project.
+
+A new user can install the required dependencies using:
+
+pip install -r requirements.txt
+
+Then the project notebook can be opened and executed.
+
+The project documentation also requires the notebook to be
+restarted and executed from top to bottom before final submission.
+
+This helps confirm that the project does not depend on hidden
+variables or previous notebook state.
+
+
+======================================================================
+30. FINAL PROJECT LIBRARY ARCHITECTURE
+======================================================================
+
+                    MALL CUSTOMER DATA
+                           |
+                           ↓
+                     KAGGLEHUB
+                           |
+                           ↓
+                         PANDAS
+                           |
+                           ↓
+                  DATA PREPROCESSING
+                           |
+                           ↓
+                         NUMPY
+                           |
+                           ↓
+                    STANDARD SCALER
+                           |
+                           ↓
+                      X_SCALED
+                           |
+          ┌────────────────┼────────────────┐
+          ↓                ↓                ↓
+      K-MEANS       AGGLOMERATIVE        DBSCAN
+          |                |                |
+          ↓                ↓                ↓
+      CLUSTERING       HIERARCHY        DENSITY
+          |                |                |
+          └────────────────┼────────────────┘
+                           ↓
+                 CLUSTER EVALUATION
+                           |
+          ┌────────────────┼────────────────┐
+          ↓                ↓                ↓
+      SILHOUETTE       DAVIES-BOULDIN   CALINSKI-HARABASZ
+                           |
+                           ↓
+                  CUSTOMER PROFILING
+                           |
+                           ↓
+                  BUSINESS INSIGHTS
+
+
+======================================================================
+31. FINAL CONCLUSION
+======================================================================
+
+The Mall Customer Segmentation project uses a focused and
+appropriate Python technology stack for unsupervised learning.
+
+The libraries were selected according to the actual requirements
+of the project.
+
+The main workflow is:
+
+KaggleHub
+   ↓
+Pandas
+   ↓
+NumPy
+   ↓
+StandardScaler
+   ↓
+K-Means / Agglomerative / DBSCAN
+   ↓
+Clustering Metrics
+   ↓
+Matplotlib / Seaborn Visualizations
+   ↓
+Customer Profiles
+   ↓
+Business Interpretation
+
+The project does not require unnecessary deep-learning frameworks
+or unrelated machine-learning libraries.
+
+The final third-party dependency set is:
+
+1. NumPy
+2. Pandas
+3. Matplotlib
+4. Seaborn
+5. Scikit-learn
+6. SciPy
+7. KaggleHub
+
+This dependency structure is sufficient for the documented
+Mall Customer Segmentation workflow.
+
+======================================================================
+                    END OF DOCUMENT
+======================================================================
